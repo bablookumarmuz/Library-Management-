@@ -6,7 +6,7 @@ const { initCronJobs } = require('./utils/cronJobs');
 
 dotenv.config();
 connectDB();
-initCronJobs();
+// initCronJobs(); // Disable cron jobs for Vercel serverless deployment (use Vercel Cron instead)
 
 const app = express();
 const PORT = process.env.PORT || 5000;
