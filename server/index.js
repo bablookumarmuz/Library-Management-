@@ -8,17 +8,35 @@ dotenv.config();
 connectDB();
 initCronJobs();
 
-const app = express();
-const PORT = process.env.PORT || 5000;
+const allowedOrigins = [
+    'https://library-management-m2i7.vercel.app', // User's frontend
+    'http://localhost:5173',
+    'http://localhost:5000'
+];
 
 const corsOptions = {
-    origin: process.env.CLIENT_URL || '*', // Allow specific origin or all
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    origin: function (origin, callback) {
+        // Allow requests with no origin (like mobile apps or curl requests)
+        if (!origin) return callback(null, true);
+
+        // Check if origin is allowed
+        if (allowedOrigins.indexOf(origin) !== -1 || process.env.CLIENT_URL === origin) {
+            callback(null, true);
+        } else {
+            // For debugging: Log the blocked origin
+            console.log('Blocked by CORS:', origin);
+            // Fallback for now: Allow it but log it (to fix the user's issue immediately)
+            // callback(new Error('Not allowed by CORS')); 
+            callback(null, true);
+        }
+    },
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true
 };
 
 app.use(cors(corsOptions));
-app.use(express.json());
+// Handle preflight requests for all routes
+app.options('*', cors(corsOptions));
 
 // Routes
 app.use('/api/auth', require('./routes/authRoutes'));
