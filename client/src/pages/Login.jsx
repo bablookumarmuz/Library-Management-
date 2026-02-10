@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Mail, Lock, BookOpen } from 'lucide-react';
 import { useAuth } from '../context/AuthContext'; // Fix casing if needed, usually AuthContext
-import logo from '../assets/logo.svg';
+import logo from '../assets/logo.png';
 
 const Login = () => {
     const [email, setEmail] = useState('');

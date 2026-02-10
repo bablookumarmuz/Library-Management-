@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { useAuth } from '../context/authContext';
-import { Book, Clock, CheckSquare, LogOut, LayoutDashboard, Search, Library, CreditCard } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { useAuth } from '../context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { Book, Clock, CheckSquare, LogOut, LayoutDashboard, Search, CreditCard, Library } from 'lucide-react';
 import { format } from 'date-fns';
+import logo from '../assets/logo.png';
 
 const UserDashboard = () => {
     const { user, logout } = useAuth();
@@ -54,7 +55,7 @@ const UserDashboard = () => {
                 <div className="px-6 py-4 w-full">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                            <Library className="w-8 h-8 text-emerald-700" />
+                            <img src={logo} alt="Smart Library Logo" className="w-8 h-8 rounded" />
                             <div className="flex flex-col">
                                 <span className="text-xl font-bold text-gray-900">Smart Library</span>
                                 <span className="text-xs text-gray-500">{user?.name || 'User'}</span>

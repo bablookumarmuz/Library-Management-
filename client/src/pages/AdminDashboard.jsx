@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../context/authContext';
+import { useAuth } from '../context/AuthContext';
 import {
     LayoutDashboard,
     Book,
@@ -20,6 +20,7 @@ import AdminBooks from './AdminBooks';
 import AdminUsers from './AdminUsers';
 import AdminTransactions from './AdminTransactions';
 import AdminFines from './AdminFines';
+import logo from '../assets/logo.png';
 
 // Define SidebarItem component outside to prevent re-creation on render
 const SidebarItem = ({ icon: Icon, label, id, activeTab, setActiveTab, closeSidebar }) => (
@@ -174,7 +175,7 @@ const AdminDashboard = () => {
             `}>
                 <div className="p-6 border-b border-gray-50 flex items-center justify-between">
                     <div className="flex items-center gap-2 text-emerald-900">
-                        <Library className="w-8 h-8" />
+                        <img src={logo} alt="Smart Library Logo" className="w-8 h-8 rounded" />
                         <span className="text-xl font-bold">Smart Library Admin</span>
                     </div>
                     <button onClick={() => setIsSidebarOpen(false)} className="md:hidden text-gray-500">

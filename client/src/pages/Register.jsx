@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Mail, Lock, User, Shield, BookOpen } from 'lucide-react';
 import { useAuth } from '../context/AuthContext'; // Fix casing locally if strictly 'authContext'
-import logo from '../assets/logo.svg';
+import logo from '../assets/logo.png';
 
 const Register = () => {
     const [formData, setFormData] = useState({
