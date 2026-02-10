@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Mail, Lock, User, Shield, BookOpen } from 'lucide-react';
-import { useAuth } from '../context/authContext';
+import { useAuth } from '../context/AuthContext'; // Fix casing locally if strictly 'authContext'
+import logo from '../assets/logo.svg';
 
 const Register = () => {
     const [formData, setFormData] = useState({
@@ -45,7 +46,7 @@ const Register = () => {
                 <div className="w-full max-w-md mx-auto">
                     <div className="flex flex-col items-center mb-10 text-center lg:items-start lg:text-left">
                         <div className="flex items-center gap-2 mb-6">
-                            <BookOpen className="w-8 h-8 text-blue-600" />
+                            <img src={logo} alt="Smart Library Logo" className="w-10 h-10" />
                             <span className="text-xl font-bold text-gray-800">Smart Library</span>
                         </div>
                         <h2 className="text-3xl font-bold text-gray-900">Create Account</h2>

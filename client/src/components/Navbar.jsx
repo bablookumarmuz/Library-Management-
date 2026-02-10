@@ -1,6 +1,7 @@
 import React from 'react';
 import { BookOpen } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import logo from '../assets/logo.svg';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = React.useState(false);
@@ -9,7 +10,7 @@ const Navbar = () => {
         <nav className="relative bg-white border-b border-gray-100">
             <div className="px-6 py-4 flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                    <BookOpen className="w-8 h-8 text-blue-600" />
+                    <img src={logo} alt="Smart Library Logo" className="w-8 h-8 rounded" />
                     <span className="text-xl font-bold text-gray-800">Smart Library</span>
                 </div>
 
