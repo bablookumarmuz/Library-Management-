@@ -8,6 +8,11 @@ dotenv.config();
 connectDB();
 initCronJobs();
 
+const app = express();
+const PORT = process.env.PORT || 5000;
+
+
+
 const allowedOrigins = [
     'https://library-management-m2i7.vercel.app', // User's frontend
     'http://localhost:5173',
@@ -37,6 +42,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 // Handle preflight requests for all routes
 app.options('*', cors(corsOptions));
+app.use(express.json());
 
 // Routes
 app.use('/api/auth', require('./routes/authRoutes'));
