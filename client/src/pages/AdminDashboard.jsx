@@ -22,9 +22,12 @@ import AdminTransactions from './AdminTransactions';
 import AdminFines from './AdminFines';
 
 // Define SidebarItem component outside to prevent re-creation on render
-const SidebarItem = ({ icon: Icon, label, id, activeTab, setActiveTab }) => (
+const SidebarItem = ({ icon: Icon, label, id, activeTab, setActiveTab, closeSidebar }) => (
     <button
-        onClick={() => setActiveTab(id)}
+        onClick={() => {
+            setActiveTab(id);
+            if (closeSidebar) closeSidebar();
+        }}
         className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${activeTab === id
             ? 'bg-emerald-900 text-white'
             : 'text-gray-600 hover:bg-gray-100'
@@ -39,6 +42,7 @@ const AdminDashboard = () => {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('dashboard');
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [stats, setStats] = useState({
         totalBooks: 0,
         availableBooks: 0,
@@ -153,22 +157,37 @@ const AdminDashboard = () => {
     }, [activeTab]);
 
     return (
-        <div className="min-h-screen bg-white flex">
+        <div className="min-h-screen bg-white flex relative">
+            {/* Mobile Sidebar Overlay */}
+            {isSidebarOpen && (
+                <div
+                    className="fixed inset-0 bg-black/50 z-20 md:hidden"
+                    onClick={() => setIsSidebarOpen(false)}
+                ></div>
+            )}
+
             {/* Sidebar */}
-            <aside className="w-64 bg-white border-r border-gray-100 fixed h-full z-10 flex flex-col">
-                <div className="p-6 border-b border-gray-50">
+            <aside className={`
+                w-64 bg-white border-r border-gray-100 flex flex-col
+                fixed h-full z-30 transition-transform duration-300 md:translate-x-0
+                ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+            `}>
+                <div className="p-6 border-b border-gray-50 flex items-center justify-between">
                     <div className="flex items-center gap-2 text-emerald-900">
                         <Library className="w-8 h-8" />
-                        <span className="text-xl font-bold">Admin Panel</span>
+                        <span className="text-xl font-bold">Smart Library Admin</span>
                     </div>
+                    <button onClick={() => setIsSidebarOpen(false)} className="md:hidden text-gray-500">
+                        <LogOut className="w-5 h-5 rotate-180" /> {/* Using LogOut as close icon backup or X */}
+                    </button>
                 </div>
 
-                <div className="p-4 flex-1 space-y-1">
-                    <SidebarItem icon={LayoutDashboard} label="Dashboard" id="dashboard" activeTab={activeTab} setActiveTab={setActiveTab} />
-                    <SidebarItem icon={Book} label="Books" id="books" activeTab={activeTab} setActiveTab={setActiveTab} />
-                    <SidebarItem icon={Users} label="Users" id="users" activeTab={activeTab} setActiveTab={setActiveTab} />
-                    <SidebarItem icon={History} label="Borrow Records" id="transactions" activeTab={activeTab} setActiveTab={setActiveTab} />
-                    <SidebarItem icon={CreditCard} label="Fines" id="fines" activeTab={activeTab} setActiveTab={setActiveTab} />
+                <div className="p-4 flex-1 space-y-1 overflow-y-auto">
+                    <SidebarItem icon={LayoutDashboard} label="Dashboard" id="dashboard" activeTab={activeTab} setActiveTab={setActiveTab} closeSidebar={() => setIsSidebarOpen(false)} />
+                    <SidebarItem icon={Book} label="Books" id="books" activeTab={activeTab} setActiveTab={setActiveTab} closeSidebar={() => setIsSidebarOpen(false)} />
+                    <SidebarItem icon={Users} label="Users" id="users" activeTab={activeTab} setActiveTab={setActiveTab} closeSidebar={() => setIsSidebarOpen(false)} />
+                    <SidebarItem icon={History} label="Borrow Records" id="transactions" activeTab={activeTab} setActiveTab={setActiveTab} closeSidebar={() => setIsSidebarOpen(false)} />
+                    <SidebarItem icon={CreditCard} label="Fines" id="fines" activeTab={activeTab} setActiveTab={setActiveTab} closeSidebar={() => setIsSidebarOpen(false)} />
                 </div>
 
                 <div className="p-4 border-t border-gray-50">
@@ -183,22 +202,29 @@ const AdminDashboard = () => {
             </aside>
 
             {/* Main Content */}
-            <main className="flex-1 ml-64 bg-gray-50 min-h-screen">
+            <main className="flex-1 md:ml-64 bg-gray-50 min-h-screen w-full">
+                <div className="md:hidden p-4 bg-white border-b border-gray-100 flex items-center gap-3">
+                    <button onClick={() => setIsSidebarOpen(true)} className="p-2 text-gray-600">
+                        <LayoutDashboard className="w-6 h-6" />
+                    </button>
+                    <span className="font-bold text-lg text-gray-900">Smart Library Admin</span>
+                </div>
+
                 {activeTab === 'dashboard' && (
-                    <div className="p-8">
-                        <header className="flex justify-between items-center mb-8">
+                    <div className="p-4 md:p-8">
+                        <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
                             <div>
                                 <h1 className="text-3xl font-serif font-bold text-gray-900">Admin Dashboard</h1>
                                 <p className="text-gray-500 mt-1">Welcome back, {user?.name || 'Admin'}!</p>
                             </div>
-                            <div className="flex items-center gap-3 bg-white px-4 py-2 rounded-lg shadow-sm border border-gray-100">
+                            <div className="flex items-center gap-3 bg-white px-4 py-2 rounded-lg shadow-sm border border-gray-100 self-start">
                                 <span className="text-sm font-medium text-gray-600">Date:</span>
                                 <span className="text-sm font-bold text-gray-900">{new Date().toLocaleDateString()}</span>
                             </div>
                         </header>
 
                         {/* Stats Grid */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 mb-8">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
                             {[
                                 { label: 'Total Books', value: stats.totalBooks, icon: Book, color: 'emerald' },
                                 { label: 'Total Users', value: stats.totalUsers, icon: Users, color: 'blue' },
@@ -222,7 +248,7 @@ const AdminDashboard = () => {
                         </div>
 
                         {/* Charts Section */}
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                        <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 mb-8">
                             {/* Monthly Trends */}
                             <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
                                 <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
@@ -265,7 +291,7 @@ const AdminDashboard = () => {
                                                 <span className="flex items-center justify-center w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 font-bold text-sm">
                                                     {index + 1}
                                                 </span>
-                                                <div className="flex-1">
+                                                <div className="flex-1 min-w-0">
                                                     <h4 className="text-sm font-semibold text-gray-900 truncate">{book.title}</h4>
                                                     <div className="w-full bg-gray-100 rounded-full h-1.5 mt-2">
                                                         <div
@@ -274,7 +300,7 @@ const AdminDashboard = () => {
                                                         />
                                                     </div>
                                                 </div>
-                                                <span className="text-sm font-medium text-gray-600">{book.count} times</span>
+                                                <span className="text-sm font-medium text-gray-600">{book.count}</span>
                                             </div>
                                         ))
                                     )}
@@ -286,7 +312,7 @@ const AdminDashboard = () => {
                         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
                             <h2 className="text-xl font-serif font-bold text-gray-900 mb-6">Recent Activity</h2>
                             <div className="overflow-x-auto">
-                                <table className="w-full text-left">
+                                <table className="w-full text-left min-w-[600px]">
                                     <thead>
                                         <tr className="border-b border-gray-100 text-gray-500 text-sm">
                                             <th className="pb-4 font-medium">User</th>

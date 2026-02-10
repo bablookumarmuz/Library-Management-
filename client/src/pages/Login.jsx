@@ -25,7 +25,7 @@ const Login = () => {
                     <div className="flex flex-col items-center mb-10 text-center lg:items-start lg:text-left">
                         <div className="flex items-center gap-2 mb-6">
                             <BookOpen className="w-8 h-8 text-blue-600" />
-                            <span className="text-xl font-bold text-gray-800">SmartLibrary</span>
+                            <span className="text-xl font-bold text-gray-800">Smart Library</span>
                         </div>
                         <h2 className="text-3xl font-bold text-gray-900">Welcome Back</h2>
                         <p className="mt-2 text-gray-500">Please enter your details to sign in.</p>

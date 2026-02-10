@@ -46,7 +46,7 @@ const Landing = () => {
                             {/* Abstract decorative element */}
                             <div className="absolute top-0 right-0 -mr-20 -mt-20 w-[500px] h-[500px] bg-blue-100 rounded-full blur-3xl opacity-50"></div>
 
-                            <div className="relative grid grid-cols-2 gap-4 p-4 bg-white shadow-2xl rounded-2xl">
+                            <div className="relative grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 bg-white shadow-2xl rounded-2xl">
                                 <div className="p-6 bg-blue-50 rounded-xl">
                                     <Book className="w-8 h-8 mb-4 text-blue-600" />
                                     <h3 className="font-semibold text-gray-900">Book Tracking</h3>

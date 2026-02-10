@@ -9,6 +9,7 @@ const UserDashboard = () => {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
     const [transactions, setTransactions] = useState([]);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [stats, setStats] = useState({
         currentlyBorrowed: 0,
         totalBorrowed: 0,
@@ -55,12 +56,21 @@ const UserDashboard = () => {
                         <div className="flex items-center gap-2">
                             <Library className="w-8 h-8 text-emerald-700" />
                             <div className="flex flex-col">
-                                <span className="text-xl font-bold text-gray-900">The Modern Athenaeum</span>
+                                <span className="text-xl font-bold text-gray-900">Smart Library</span>
                                 <span className="text-xs text-gray-500">{user?.name || 'User'}</span>
                             </div>
                         </div>
 
-                        <div className="flex items-center gap-6">
+                        {/* Mobile Menu Button */}
+                        <button
+                            className="md:hidden p-2 text-gray-600"
+                            onClick={() => setIsMenuOpen(!isMenuOpen)}
+                        >
+                            {isMenuOpen ? <LogOut className="w-6 h-6 rotate-180" /> : <div className="space-y-1.5"><span className="block w-6 h-0.5 bg-gray-600"></span><span className="block w-6 h-0.5 bg-gray-600"></span><span className="block w-6 h-0.5 bg-gray-600"></span></div>}
+                        </button>
+
+                        {/* Desktop Links */}
+                        <div className="hidden md:flex items-center gap-6">
                             <Link to="/dashboard" className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-emerald-800 bg-emerald-50 rounded-lg">
                                 <LayoutDashboard className="w-4 h-4" />
                                 Dashboard
@@ -87,6 +97,33 @@ const UserDashboard = () => {
                         </div>
                     </div>
                 </div>
+
+                {/* Mobile Menu Dropdown */}
+                {isMenuOpen && (
+                    <div className="md:hidden border-t border-gray-100 bg-white px-6 py-4 flex flex-col gap-4 shadow-lg">
+                        <Link to="/dashboard" className="flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-emerald-700" onClick={() => setIsMenuOpen(false)}>
+                            <LayoutDashboard className="w-4 h-4" />
+                            Dashboard
+                        </Link>
+                        <Link to="/browse" className="flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-emerald-700" onClick={() => setIsMenuOpen(false)}>
+                            <Search className="w-4 h-4" />
+                            Browse Books
+                        </Link>
+                        <Link to="/my-books" className="flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-emerald-700" onClick={() => setIsMenuOpen(false)}>
+                            <Book className="w-4 h-4" />
+                            My Books
+                        </Link>
+                        <Link to="/fines" className="flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-emerald-700" onClick={() => setIsMenuOpen(false)}>
+                            <CreditCard className="w-4 h-4" />
+                            Pay Fines
+                        </Link>
+                        <div className="h-px bg-gray-100 w-full"></div>
+                        <button onClick={handleLogout} className="flex items-center gap-2 text-sm font-medium text-red-600 hover:text-red-700">
+                            <LogOut className="w-4 h-4" />
+                            Logout
+                        </button>
+                    </div>
+                )}
             </nav>
 
             {/* Main Content */}
@@ -94,7 +131,7 @@ const UserDashboard = () => {
                 {/* Welcome Banner */}
                 <div className="bg-emerald-900 rounded-2xl p-8 mb-8 text-white relative overflow-hidden">
                     <div className="relative z-10">
-                        <h1 className="text-4xl font-serif font-bold mb-2">Welcome back, {user?.name || 'Reader'}!</h1>
+                        <h1 className="text-3xl md:text-4xl font-serif font-bold mb-2">Welcome back, {user?.name || 'Reader'}!</h1>
                         <p className="text-emerald-100 text-lg">Discover your next great read</p>
                     </div>
                     {/* Decorative Circles */}
@@ -136,17 +173,17 @@ const UserDashboard = () => {
 
                 {/* Borrowed Books Section */}
                 <div>
-                    <div className="flex items-center justify-between mb-6">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
                         <div>
-                            <h2 className="text-3xl font-serif font-bold text-gray-900">My Borrowed Books</h2>
+                            <h2 className="text-2xl md:text-3xl font-serif font-bold text-gray-900">My Borrowed Books</h2>
                             <p className="text-gray-500 mt-1">Track your borrowing history</p>
                         </div>
-                        <Link to="/my-books" className="text-emerald-600 font-medium hover:underline">View Full History &rarr;</Link>
+                        <Link to="/my-books" className="text-emerald-600 font-medium hover:underline self-start md:self-auto">View Full History &rarr;</Link>
                     </div>
 
                     <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                         <div className="overflow-x-auto">
-                            <table className="w-full text-left">
+                            <table className="w-full text-left min-w-[600px]">
                                 <thead>
                                     <tr className="bg-gray-50 text-gray-500 text-sm border-b border-gray-100">
                                         <th className="px-6 py-4 font-medium">Book Title</th>

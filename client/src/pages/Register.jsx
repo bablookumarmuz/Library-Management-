@@ -46,7 +46,7 @@ const Register = () => {
                     <div className="flex flex-col items-center mb-10 text-center lg:items-start lg:text-left">
                         <div className="flex items-center gap-2 mb-6">
                             <BookOpen className="w-8 h-8 text-blue-600" />
-                            <span className="text-xl font-bold text-gray-800">SmartLibrary</span>
+                            <span className="text-xl font-bold text-gray-800">Smart Library</span>
                         </div>
                         <h2 className="text-3xl font-bold text-gray-900">Create Account</h2>
                         <p className="mt-2 text-gray-500">Join our library community today.</p>
@@ -102,7 +102,7 @@ const Register = () => {
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label className="block mb-1 text-sm font-medium text-gray-700">Password</label>
                                 <div className="relative">
