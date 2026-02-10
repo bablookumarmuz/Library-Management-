@@ -11,7 +11,7 @@ const BrowseBooks = () => {
 
     const fetchBooks = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/books');
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/books`);
             setBooks(res.data);
             setLoading(false);
         } catch (error) {
@@ -36,7 +36,7 @@ const BrowseBooks = () => {
                 headers: { Authorization: `Bearer ${token}` }
             };
 
-            await axios.post('http://localhost:5000/api/transactions/borrow', { bookId }, config);
+            await axios.post(`${import.meta.env.VITE_API_URL}/api/transactions/borrow`, { bookId }, config);
             toast.success('Book borrowed successfully!');
             fetchBooks(); // Refresh to update availability
         } catch (error) {

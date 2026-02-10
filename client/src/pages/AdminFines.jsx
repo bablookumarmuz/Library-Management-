@@ -12,7 +12,7 @@ const AdminFines = () => {
         try {
             const token = localStorage.getItem('token');
             const config = { headers: { Authorization: `Bearer ${token}` } };
-            const res = await axios.get('http://localhost:5000/api/payment/admin/all-fines', config);
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/payment/admin/all-fines`, config);
             setFines(res.data);
             setLoading(false);
         } catch (error) {

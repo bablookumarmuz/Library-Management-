@@ -25,7 +25,7 @@ const UserDashboard = () => {
             try {
                 const token = localStorage.getItem('token');
                 const config = { headers: { Authorization: `Bearer ${token}` } };
-                const res = await axios.get('http://localhost:5000/api/transactions/my-transactions', config);
+                const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/transactions/my-transactions`, config);
 
                 const txns = res.data;
                 setTransactions(txns);

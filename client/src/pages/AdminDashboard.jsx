@@ -64,9 +64,9 @@ const AdminDashboard = () => {
 
                 // Fetch Data in Parallel
                 const [booksRes, usersRes, txnsRes] = await Promise.all([
-                    axios.get('http://localhost:5000/api/books'),
-                    axios.get('http://localhost:5000/api/users', config),
-                    axios.get('http://localhost:5000/api/transactions', config)
+                    axios.get(`${import.meta.env.VITE_API_URL}/api/books`),
+                    axios.get(`${import.meta.env.VITE_API_URL}/api/users`, config),
+                    axios.get(`${import.meta.env.VITE_API_URL}/api/transactions`, config)
                 ]);
 
                 // Calculate Stats with strict safety checks

@@ -13,7 +13,7 @@ const AdminUsers = () => {
             const config = {
                 headers: { Authorization: `Bearer ${token}` }
             };
-            const res = await axios.get('http://localhost:5000/api/users', config);
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/users`, config);
             setUsers(res.data);
             setLoading(false);
         } catch (error) {
@@ -33,7 +33,7 @@ const AdminUsers = () => {
                 const config = {
                     headers: { Authorization: `Bearer ${token}` }
                 };
-                await axios.delete(`http://localhost:5000/api/users/${id}`, config);
+                await axios.delete(`${import.meta.env.VITE_API_URL}/api/users/${id}`, config);
                 toast.success('User deleted successfully');
                 fetchUsers();
             } catch (error) {
@@ -48,7 +48,7 @@ const AdminUsers = () => {
             const config = {
                 headers: { Authorization: `Bearer ${token}` }
             };
-            await axios.put(`http://localhost:5000/api/users/${id}`, { role: newRole }, config);
+            await axios.put(`${import.meta.env.VITE_API_URL}/api/users/${id}`, { role: newRole }, config);
             toast.success('User role updated');
             fetchUsers();
         } catch (error) {
@@ -64,7 +64,7 @@ const AdminUsers = () => {
                 const config = {
                     headers: { Authorization: `Bearer ${token}` }
                 };
-                await axios.put(`http://localhost:5000/api/users/${id}`, { status: newStatus }, config);
+                await axios.put(`${import.meta.env.VITE_API_URL}/api/users/${id}`, { status: newStatus }, config);
                 toast.success(`User ${newStatus} successfully`);
                 fetchUsers();
             } catch (error) {

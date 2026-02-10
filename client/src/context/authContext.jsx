@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
                             Authorization: `Bearer ${token}`,
                         },
                     };
-                    const res = await axios.get('http://localhost:5000/api/auth/me', config);
+                    const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/me`, config);
                     setUser(res.data);
                 } catch (error) {
                     localStorage.removeItem('token');
@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }) => {
 
     const register = async (userData) => {
         try {
-            const res = await axios.post('http://localhost:5000/api/auth/register', userData);
+            const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/register`, userData);
             const { token, ...user } = res.data;
             localStorage.setItem('token', token);
             setUser(user);
@@ -50,7 +50,7 @@ export const AuthProvider = ({ children }) => {
 
     const login = async (email, password) => {
         try {
-            const res = await axios.post('http://localhost:5000/api/auth/login', { email, password });
+            const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/login`, { email, password });
             const { token, ...user } = res.data;
             localStorage.setItem('token', token);
             setUser(user);
@@ -71,7 +71,7 @@ export const AuthProvider = ({ children }) => {
 
     const forgotPassword = async (email) => {
         try {
-            await axios.post('http://localhost:5000/api/auth/forgot-password', { email });
+            await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/forgot-password`, { email });
             toast.success('Reset link sent to your email');
             return true;
         } catch (error) {
@@ -83,7 +83,7 @@ export const AuthProvider = ({ children }) => {
 
     const resetPassword = async (token, password) => {
         try {
-            await axios.post(`http://localhost:5000/api/auth/reset-password/${token}`, { password });
+            await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/reset-password/${token}`, { password });
             toast.success('Password reset successful! Please login.');
             return true;
         } catch (error) {

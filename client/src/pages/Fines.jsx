@@ -14,7 +14,7 @@ const Fines = () => {
             const config = {
                 headers: { Authorization: `Bearer ${token}` }
             };
-            const res = await axios.get('http://localhost:5000/api/payment/fines', config);
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/payment/fines`, config);
             setFines(res.data);
             setLoading(false);
         } catch (error) {
@@ -40,7 +40,7 @@ const Fines = () => {
             };
 
             // 1. Create Order
-            const orderRes = await axios.post('http://localhost:5000/api/payment/create-order', { fineId: fine._id }, config);
+            const orderRes = await axios.post(`${import.meta.env.VITE_API_URL}/api/payment/create-order`, { fineId: fine._id }, config);
             const order = orderRes.data;
 
             const options = {
@@ -53,7 +53,7 @@ const Fines = () => {
                 handler: async function (response) {
                     try {
                         // 2. Verify Payment
-                        await axios.post('http://localhost:5000/api/payment/verify', {
+                        await axios.post(`${import.meta.env.VITE_API_URL}/api/payment/verify`, {
                             razorpay_order_id: response.razorpay_order_id,
                             razorpay_payment_id: response.razorpay_payment_id,
                             razorpay_signature: response.razorpay_signature,

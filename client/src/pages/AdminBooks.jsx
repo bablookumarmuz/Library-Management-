@@ -34,7 +34,7 @@ const AdminBooks = () => {
     // Fetch Books
     const fetchBooks = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/books');
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/books`);
             setBooks(res.data);
             setLoading(false);
         } catch (error) {
@@ -113,11 +113,11 @@ const AdminBooks = () => {
 
             if (currentBook) {
                 // Update
-                await axios.put(`http://localhost:5000/api/books/${currentBook._id}`, dataToSubmit, config);
+                await axios.put(`${import.meta.env.VITE_API_URL}/api/books/${currentBook._id}`, dataToSubmit, config);
                 toast.success('Book updated successfully');
             } else {
                 // Create
-                await axios.post('http://localhost:5000/api/books', dataToSubmit, config);
+                await axios.post(`${import.meta.env.VITE_API_URL}/api/books`, dataToSubmit, config);
                 toast.success('Book added successfully');
             }
             fetchBooks();
@@ -133,7 +133,7 @@ const AdminBooks = () => {
 
         try {
             const token = localStorage.getItem('token');
-            await axios.delete(`http://localhost:5000/api/books/${id}`, {
+            await axios.delete(`${import.meta.env.VITE_API_URL}/api/books/${id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             toast.success('Book deleted');

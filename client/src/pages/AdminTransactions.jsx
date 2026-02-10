@@ -14,7 +14,7 @@ const AdminTransactions = () => {
             const config = {
                 headers: { Authorization: `Bearer ${token}` }
             };
-            const res = await axios.get('http://localhost:5000/api/transactions', config);
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/transactions`, config);
             setTransactions(res.data);
             setLoading(false);
         } catch (error) {
@@ -33,7 +33,7 @@ const AdminTransactions = () => {
             const config = {
                 headers: { Authorization: `Bearer ${token}` }
             };
-            await axios.post(`http://localhost:5000/api/transactions/return/${id}`, {}, config);
+            await axios.post(`${import.meta.env.VITE_API_URL}/api/transactions/return/${id}`, {}, config);
             toast.success('Book returned successfully');
             fetchTransactions();
         } catch (error) {
@@ -97,10 +97,10 @@ const AdminTransactions = () => {
                                         </td>
                                         <td className="px-6 py-4">
                                             <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium ${txn.status === 'Returned'
-                                                    ? 'bg-emerald-100 text-emerald-800'
-                                                    : txn.status === 'Issued'
-                                                        ? 'bg-yellow-100 text-yellow-800'
-                                                        : 'bg-red-100 text-red-800'
+                                                ? 'bg-emerald-100 text-emerald-800'
+                                                : txn.status === 'Issued'
+                                                    ? 'bg-yellow-100 text-yellow-800'
+                                                    : 'bg-red-100 text-red-800'
                                                 }`}>
                                                 {txn.status === 'Returned' ? <CheckCircle className="w-3 h-3" /> : <Clock className="w-3 h-3" />}
                                                 {txn.status}

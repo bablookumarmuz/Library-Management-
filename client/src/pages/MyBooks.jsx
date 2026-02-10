@@ -15,7 +15,7 @@ const MyBooks = () => {
             const config = {
                 headers: { Authorization: `Bearer ${token}` }
             };
-            const res = await axios.get('http://localhost:5000/api/transactions/my-transactions', config);
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/transactions/my-transactions`, config);
             setTransactions(res.data);
             setLoading(false);
         } catch (error) {
@@ -34,7 +34,7 @@ const MyBooks = () => {
             const config = {
                 headers: { Authorization: `Bearer ${token}` }
             };
-            await axios.post(`http://localhost:5000/api/transactions/return/${id}`, {}, config);
+            await axios.post(`${import.meta.env.VITE_API_URL}/api/transactions/return/${id}`, {}, config);
             toast.success('Book returned successfully');
             fetchMyTransactions();
         } catch (error) {
